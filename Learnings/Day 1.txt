@@ -1,0 +1,138 @@
+First, what I did was, I created a basic HTML , Hello World program, which looked a lot like the code below.
+
+HTML CODE:-
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kartik React</title>
+</head>
+
+<body>
+    <div id="root">
+        <h1>Hello World from HTML</h1>
+    </div>
+
+</body>
+
+</html>
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+After this, we tried to move a little further and inject JavaScript into our basic HTML code. So, the h1 tag that we were using earlier was now injected into the div container
+with id="root". The code,
+
+JS CODE:-
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kartik React</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+    <script>
+        const heading = document.createElement("h1"); // this document,createelement,getelementbyid, are all superpowers the browser has due it's own JS engine.
+        heading.innerHTML = "Hello world from Js";
+        const root = document.getElementById("root");
+        root.appendChild(heading);
+    </script>
+
+</body>
+
+</html>
+
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+After successfully incorporating JS, we moved towards incorporating React into our code. Now this was done using CDN(Content Delivery Network) links. Now, what actually is CDN can be understood from the explanation below
+
+-->CDN stands for Content Delivery Network. It's a geographically distributed network of servers that work together to deliver content (like web pages, images, videos) to users with faster speeds and improved reliability.
+
+-->Here's how a CDN works:
+
+a)Content Origin: When you visit a website, a request is sent to the server where the website's origin (original files) are located.
+
+b)CDN Edge Servers: CDNs have servers in various locations around the world called "edge servers." These edge servers cache (store temporary copies) of website content that is popular or frequently accessed.
+
+c)User Request: When a user tries to access a website, the CDN first checks if the requested content is available on an edge server near the user's location.
+
+d)Content Delivery: If the content is available on a nearby edge server, it's delivered to the user from that server, resulting in faster loading times.
+Origin Server (if not on CDN): If the content is not available on an edge server, the CDN retrieves it from the original server and potentially caches it on the edge server for future requests.
+
+Now, the code for writing Hello world program by incorporating React in HTML is,
+
+REACT CODE:-
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kartik React</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>//
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script>
+        const heading = React.createElement("h1", {}, "Hello World from React"); // core React tag creation, no DOM manipulation required.
+        const root = ReactDOM.createRoot(document.getElementById("root")); //React Dom manipulation happens here, thus ReactDOM.createRoot()
+        root.render(heading);
+    </script>
+
+</body>
+
+</html>
+
+-->  might be wondering what crossorigin is, The crossorigin attribute is used with the <script> tag to specify how the browser should handle Cross-Origin Resource Sharing (CORS) for the external script being loaded from the CDN link.
+
+Here's a breakdown of what crossorigin means in this context:
+
+CORS: This stands for Cross-Origin Resource Sharing. It's a web security mechanism that restricts how a web page from one domain can request resources from a different domain.
+crossorigin attribute: This attribute allows you to configure how the browser handles CORS for the specific script.
+In this example, the value of the attribute is not explicitly set. By default, the browser might set it to "anonymous". Here's what different values of crossorigin can do:
+
+anonymous (default): This allows the script to make requests to the same domain that served the page (https://unpkg.com in this case) but prevents it from including any cookies or authentication headers in those requests. This is a secure option for most cases where the script doesn't need to interact with data specific to the user.
+use-credentials: This allows the script to include cookies and authentication headers when making requests to the same domain. This should only be used if the script needs this functionality, as it can introduce security risks.
+null (not recommended): This disables CORS checks entirely. It's generally not recommended as it can lead to security vulnerabilities.
+
+
+Now, it should be known, if I made a little changes in the code, like the ones below,
+
+<script>
+        const heading = React.createElement("h1", {}, "Hello world from React");
+        const heading2 = React.createElement("h2", {}, "Hello world from React2");
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(heading);
+        root.render(heading2);
+    </script>
+
+the Output earlier was---> Hello world from React
+the Output now with the above code will be--->Hello world from React2.
+
+Important thing to note here is, if there were already something in the div container with id="root", it would be immediately be replaced when root.render happes, i.e, it would display for 
+a split second and be replaced by anything inside root.render.
+
+Now, I know that React is a JS library, but what does library even mean? Library is basically a set of pre-written functions, modules or classes to perform specific tasks. The advantage
+of using a library over a framework((((Think of a library as a toolbox. It provides you with various tools (functions) that you can use to build something. You decide which tools to use and how to use them.
+Think of a framework as a pre-built structure. It provides a foundation and some pre-assembled components (like walls and doors) for your building. You can customize it to some extent, but you have less freedom than building from scratch.)))) is that, library can be applied even over a small section of code in the project, whereas framework has a pre-defined architecture
+for the whole project with little customizations. 
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+

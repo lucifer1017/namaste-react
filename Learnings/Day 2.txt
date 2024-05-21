@@ -1,0 +1,79 @@
+Started off with NPM(npm), which does not stand for node package manager. It manages the packages and all the packages are hosted over there. All the libraries, the utilities come from
+npm.
+
+When the npm init command was run, it initialized npm in our project. So when npm init was run, a package.json file was created. Package.json file keeps track of all the dependencies and 
+their installed versions.
+
+The most imp package in our project is a bundler. A bundler takes care of minifying our code, bundling it together, caching it , cleaning it before sending it to production. So it
+basically bundles our app, packages it properly so that it can be shipped to production.
+
+##There are 2 types of dependencies our app can have, Dev and Normal;
+Dev--> Generally required in the development phase, when we are developing our app.
+Normal--> Used in production also apart from development phase.
+
+Now, we installed a bundler named parcel as a dev dependency by running the command, npm install -D parcel. After this command 
+was run, we saw a few additions of files/folders. 
+A node-modules folder was added and a package-lock.json file was added. Also, parcel appeared in the dev dependencies section of 
+package.json like,
+"parcel": "^2.8.3" (version is for example). Now, the "^", a "caret" sign basically implies that it takes care of minor upgrades,
+ like 2.8.3 to 2.8.4 or 2.8.5 types. Whereas, had it been
+"~2.8.3", a "~" tilde sign basically takes care of major upgrades, 2.8.3 to 3.something.something, 
+like major upgrades. It is thus advisable to use the caret"^" to go slow and take 
+care of only the minor upgrades automatically. Package-lock.json keeps track of the exact version
+ of the package that is being installed. Why is it important? Well, it is important 
+sometimes to avoid errors while deploying the code to production(i.e no mismatch of the versions 
+by looking at package-lock.json file). Now there is a "integrity" field in the resolved 
+parcel object in package-lock.json file. The integrity field stores a cryptographic hash (often SHA-512) of the downloaded package.
+ This hash is a unique fingerprint-like value that represents the exact content of the downloaded package file.
+
+Why it's Important:
+
+There are two main reasons why integrity is important in package-lock.json for Parcel:
+
+Reproducible Builds:
+
+When you run parcel build or parcel serve, Parcel uses the information in package-lock.json to determine which versions of your
+ dependencies to include in your bundled application.
+The integrity hash ensures that Parcel downloads the exact same package version 
+every time you build your project, regardless of potential changes in external package repositories. This guarantees consistent and reproducible builds across different environments.
+Security:
+
+The integrity hash helps to verify the integrity of the downloaded package. If the downloaded package has 
+been tampered with or modified in any way, the calculated hash will not match the one stored in package-lock.json.
+This helps to prevent potential security vulnerabilities like installing malicious code disguised as a legitimate package.
+
+
+
+Q: What is there in node_modules?
+Ans:- It contains all the code and data of all the dependencies that is fetched from npm. It serves the function of a database
+It contains actual data of the dependencies that our project needs. It not only contains the data and code of parcel, but also the
+dependencies parcel is dependent upon to function properly and furthermore even those dependencies have their own dependencies. 
+This is known as transitive dependency.
+Also, since node_modules is huge and chunky, we rather not push it into production or GitHub. To make this happen, we put this inside the
+.gitignore file. But one can ask, do we have to push package.json and package-lock.json to GitHub. The ans is yes, we definitely 
+should do that, as these files note the dependencies required with their versions. So we can recreate node_modules by simply running 
+npm install in our app.
+Now, we try igniting our app, npx parcel index.html. Now, npm and npx are two different commands. Npm is used for installation packages 
+and npx is used for executing packages. Now, when npx parcel index.html is run, it hosts our app on the server on port localhost1234 
+generally.
+Going further, we do not need CDN links to load react and react-dom into our app, as always fetching from CDN links is a costly process
+and changing the URL for newer versions again and again is a hassle.
+
+So what we do is, we install react and react-dom package into our app, using (npm i is same as npm install), npm i react and 
+npm i react-dom. and then run our server again. Now, the App.js file throws error since, it does not know what React and ReactDOM is yet.
+
+
+To overcome this, we do import React from "react";
+import ReactDOM from "react-dom/client";
+But, this also poses a problem as App.js is treated as a browserscript, and not a normal file, so we suggest type="module" in the 
+script tag before src in index.html . Now, when all this is done, we notice, when we make a few changes to the App.js file,
+parcel using the - HMR= Hot Module Replacement, wherein it uses the File Watching Algorithm to track changes and reflect them
+as soon as the file is saved and loads faster than before. Faster loading can be credited to caching it does in .parcel-cache folder.
+
+Now we know, when npx parcel index.html is done, dist and .parcel-cache folder is created, so from previous experience we know,
+these kind of folders are not pushed to github, thus they are added to .gitignore. Our production build is also created inside
+dist folder. And .parcel-cache and dist work in sync for HMR.
+
+Now we also added browserslist in our dependencies in package.json . In it we had to pass an array, but we just passed "last 2 versions"
+which takes care of 74% of browser usage, covering the latest 2 versions of the browsers. This compatibility of old browser 
+versions is provided by parcel.

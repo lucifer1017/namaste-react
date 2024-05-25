@@ -1,0 +1,172 @@
+We started off by going to package.json file and writing scripts to create dev build and production build
+in scripts, we wrote
+"start":"parcel index.html" ,
+
+"build":"parcel build index.html"
+
+
+now, in our terminal, to create production build, we write npm run build, this runs the command, npx parcel build index.html,
+for dev build, we write, npm run start or (this is valid only for dev build), npm start. 
+JSX is not html inside JavaScript. JSX is basically a html like or XML like syntax.
+
+for ex:- when this code:- const heading = <h1>hey there</h1>; is typed, 
+instead of, const heading = React.createElement("h1",{},"hey there")
+and when heading is console.log("heading"), the output is same.. which sets JSX apart from HTML/XML. See basically, JSX is not JavaScript
+since it is not ES6(Ecma Script). So what happens is, this is taken care by Parcel(internally it is taken care by Babel), this JSX is 
+transpiled***(In the context of programming, "transpiled" refers to the process of converting source code written in one programming 
+language into another source code language. Here's a breakdown of the concept:
+Source Code: This is the human-readable code that programmers write to create software. Different 
+programming languages have their own syntax and rules.
+Transpiler: A transpiler is a special program that takes source code as input and outputs source code in 
+a different language. Unlike compilers (which convert code into machine code for computers to execute directly), 
+transpilers produce code that still needs to be processed by another compiler or interpreter before it can run.)
+***contd:- before it is passed to the JS engine, thus JS engine receives the code which browser can understand.
+So talking about behind the scenes, JSX is quickly transpiled to React.createElement(which is nothing but a JS object), and then when 
+it is rendered to the DOM,it is rendered as an HTML element.
+As for Babel, it is a JS compiler, transpiler and whatnot.
+When passing attributes in JSX , it follows camel case syntax. eg:- className, tabIndex etc...
+NOTE:- when writing JSX, it is important to enclose it in parenthesis -- "()", brackets. If it is in a single line, parenthesis 
+can be avoided, but if more than one, eg:
+const head= (<h1>
+hey there
+</h1>)
+
+React Components- two kinds a) Class Based b) Functional Components(nothing but a JS function that returns JSX code);
+
+When writing a Component, name it with a capital letter, otherwise might get error.
+eg of Functional Component:-
+const HeadingComponent=()=>{
+    return (
+        <div id="head">
+        <h1>hello</h1>
+        </div>
+    )
+}
+which is the same as
+const HeadingComponent=()=>(
+    
+   <div id="head">
+        <h1>hello</h1>
+        </div>
+)
+to render a Component, we do <HeadingComponent/>, writing this way renders the Component.
+
+
+Component composition is basically using one Component inside another.
+Component composition in React involves combining smaller, independent components to create complex UIs. Each sub-component can 
+contain further components, enhancing code readability.
+
+Moving forward, we get to know that we can inject JavaScript inside JSX by using curly parenthesis {}.
+Eg:-
+
+const HeadingComponent=()=>(
+    
+   <div id="head">
+        <h1>hello</h1>
+        <h2>{100+200}</h2> // using curly parenthesis, inside h2, 300 will be there. 
+        </div>
+)
+
+Now same can be done in the case of React elements, they can be put inside curly parenthesis and used in components
+and similarly, element inside element, component inside component, and all the possible combinations.
+
+Cross-Site Scripting (XSS) is a type of web security vulnerability that allows attackers to inject malicious scripts into otherwise 
+trusted websites. These scripts are then executed by the victim's browser, potentially compromising their interaction with the application and even their data.
+
+Here's a breakdown of XSS attacks and how they work:
+
+1. Attack Scenario:
+
+An attacker finds a way to inject malicious code (usually JavaScript) into a vulnerable website. This can be done through various 
+methods, such as:
+
+Submitting the code in a form field (e.g., comment section)
+Exploiting a flaw in the website's URL handling
+Embedding the code in an image or other media file
+When a user visits the website with the injected script, the script is executed by the user's browser along with the legitimate website
+code.
+When writing JavaScript code inside JSX using curly parenthesis, JSX sanitizes the data , i.e it doesn't blindly run this code, it checks for malicious conntent and
+escapes it. Thus avoiding XSS(Cross-Site Scripting)
+Now to our surprise(or not),
+CODE 1:
+const Internal = () => (
+    <h3> added to represent Component Composition</h3>
+);
+const Comp = (
+    <h1>I love JSX</h1>
+);
+const Heading = () => (
+    <div className="root">
+        {Comp}
+        <Internal />
+        <h1>hello</h1>
+    </div>
+);
+
+CODE 2:
+const Internal = () => (
+    <h3> added to represent Component Composition</h3>
+);
+const Comp = (
+    <h1>I love JSX</h1>
+);
+const Heading = () => (
+    <div className="root">
+        {Comp}
+       {Internal()}
+        <h1>hello</h1>
+    </div>
+);
+
+CODE 3:
+const Internal = () => (
+    <h3> added to represent Component Composition</h3>
+);
+const Comp = (
+    <h1>I love JSX</h1>
+);
+const Heading = () => (
+    <div className="root">
+        {Comp}
+        <Internal></Internal>
+        <h1>hello</h1>
+    </div>
+);
+
+In the above three codes, the way of calling Internal is one and the same thing.
+One thing we should get clear in our head, JSX makes our React code readable and parcel works behind the scenes to make our app run faster.
+When we create our application using create-react-app, the bundler used employed to do the work is Webpack. The code transpiler is again Babel.
+Now const head=<h1>Hello</h1> is a react element and,
+const Internal = () => (
+    <h3> added to represent Component Composition</h3>
+); this is a react Functional Component.
+Now, whencalling one element or Component into each other, do so only inside containers, i.e h1 , h2, div or so on, 
+eg:
+import React from "react";
+import ReactDOM from "react-dom/client";
+
+const Internal = () => (
+    <h3> added to represent Component Composition</h3>
+);
+const hell = <h2> yolo</h2>
+const Comp = (
+
+    { hell }
+
+);
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(Comp);
+ this does not render anything, had it been,
+ <div>
+ {hell}
+ </div>  inside Comp, it would be fine, and display yolo. similarly for other(e in C, C in e, C in C, e in e), let's use e for element and C for component.
+
+
+
+
+
+
+
+
+
+

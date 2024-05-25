@@ -1,10 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-const heading = React.createElement("div", { id: "parent" }, [React.createElement("div", { id: "child2" },
-    [React.createElement("h1", { id: "head" }, "hey there1"), React.createElement("h2", { id: "head" }, "hello")]),
-React.createElement("div", { id: "child1" },
-    [React.createElement("h1", { id: "head" }, "hey thereyo"), React.createElement("h2", { id: "head" }, "hello")])]);
-console.log(heading);
+const Internal = () => (
+    <h3> added to represent Component Composition</h3>
+);
+const hell = <h2> yolo</h2>
+const Comp = (
+    <div> {hell}</div>
+
+
+);
+// const Heading = () => (
+
+//     <div className="root">
+
+
+//         <h1>
+//             hello
+//             {Comp}
+//         </h1>
+//     </div>
+// );
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(heading);
+root.render(Comp);

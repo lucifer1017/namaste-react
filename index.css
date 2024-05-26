@@ -1,3 +1,51 @@
-#head{
-color: red;
+.header{
+display: flex;
+justify-content: space-between;
+
+border: 2px solid black;
+
+}
+
+.logo{
+width: 150px;
+margin: 2px;
+padding: 2px;
+}
+.nav-items>ul{
+    font-size: 24px;
+    margin: 3px;
+display: flex;
+list-style-type: none;
+
+}
+.nav-items>ul>li{
+padding: 10px;
+margin: 10px;
+}
+.res-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+.res-card{
+    padding: 4px;
+    margin:8px;
+    width: 300px;
+    
+   transition: 0.45s ease-in-out;
+    &:hover{
+        border: 1px solid black;
+        cursor: pointer;
+         transform: scale(1.1);
+     
+    }
+}
+.search{
+    padding: 10px;
+    
+}
+.res-logo{
+    
+    width: 100%;
+    max-height: 200px;
+    
 }

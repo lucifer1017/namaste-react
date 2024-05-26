@@ -1,0 +1,78 @@
+The very starting of building an app goes in planning what all should be there in the app. This makes writing the code easier,
+Inside planning, the first thing to be decided is the layout or the UI.
+So, always plan about things like, header and what all will be there in it, a body , and different cotainers etc..
+
+writing css attributes inside the elements(tag itself) is known as inline CSS/ inline styling,
+so, since we are working with jsx, lets see an example
+
+<div className="res-card" style={{
+            backgroundColor: "black",
+            justifyContent: "center"
+        }}>
+            <h3>Food Stalls</h3>
+        </div>, now it can be asked, why two curly parenthesis after style, that is because, when writing js inside jsx, we 
+        use curly parenthesis to make it known, it's js inside, now the second one is a js object which cotains the styles that
+        are to be used.
+
+
+
+Rendering refers to the process of taking data or instructions and turning them into a visual representation on a screen. 
+1. From Data to Display:
+Imagine you have a recipe (data) that describes a cake. Rendering is like following that recipe and baking the cake (visual
+ representation) that you can see and interact with.
+whenever we are using map function, always provide a unique "key attribute" because if there is no unique identification due to the
+absence of key, when a new component is added to the code/data, React will not be able to identify which component is new and 
+re-render all of the components all over again which is a time costly process. This can be avoided by using a unique key.
+## It is a proven fact(React official documentation) and also convention to avoid using index as key inside map loop.
+
+NOTE:- VERY IMPORTANT
+In React, the key prop is a special attribute assigned to elements within lists rendered using the map function.
+Its primary purpose is to uniquely identify each list item for React's internal reconciliation process.
+2. The Problem with Index as Key:
+
+While an index within a list might appear unique at first glance (e.g., first item has index 0, second item has index 1), it's not
+ a reliable identifier. Issues arise when the order of items in the list changes due to:
+Sorting
+Filtering
+Adding or removing items
+Example:
+
+Imagine a list of items rendered using map with index as key. If you reorder the list items (e.g., move item 2 to position 1), 
+React won't recognize the items have switched places. It might simply reuse the existing element at position 1 (originally item 2) 
+for the new item at that position. This can lead to unexpected behavior and stale data being displayed.
+
+3. Benefits of Using Unique Keys:
+
+Assigning a unique key (like an ID from your data) to each list item ensures React can accurately identify which items have changed, 
+been added, or removed. This allows React to optimize its updates, only re-rendering the necessary elements, leading to better 
+performance and a smoother user experience.
+
+
+
+####IMPORTANT
+Config-driven-UI==> Config Driven UI (SDUI) is a design philosophy where the user interface (UI) is built and controlled by 
+configuration data instead of being directly coded in the application. This approach offers several benefits, including:
+Flexibility: UI elements, layout, and content can be easily changed by modifying the configuration data, without requiring code 
+updates and deployments.
+Maintainability: Separating UI logic from application logic simplifies code maintenance and reduces the risk of regressions.
+A/B Testing: SDUI facilitates A/B testing of different UI layouts and features by simply adjusting the configuration data for different
+ user groups.
+*****Swiggy's Dynamic Widget - A Case Study*****
+Swiggy, a popular food delivery app in India, utilizes SDUI principles with their "Dynamic Widget" system. Here's how it works:
+
+Configuration Data: Swiggy defines a specific language (often JSON) to describe the UI components of a page. This configuration 
+data specifies elements like:
+Type of Widget: Banner, carousel, product listing, etc.
+Content: Text, images, links, product details, etc.
+Layout: Arrangement of different elements within the widget.
+Conditional Logic: Define when a widget or its content should be displayed based on user data, location, or other factors.
+Dynamic Rendering Engine: Swiggy's backend utilizes a rendering engine that reads the configuration data for a specific user and page.
+UI Generation: Based on the configuration, the engine dynamically generates the UI elements and assembles the page layout.
+Delivery to Mobile App: The generated UI is delivered to the Swiggy mobile app, which displays it to the user.
+
+Benefits of Swiggy's Approach:
+Personalized Experience: Swiggy can tailor the UI for each user based on their browsing history, location, and preferences.
+Real-time Updates: Content and UI changes can be rolled out quickly by updating the configuration data, eliminating app release cycles.
+A/B Testing: Swiggy can test different UI layouts and features by serving variations to specific user groups through configuration 
+changes.Reduced Development Time: Developers focus on building and maintaining the configuration language and rendering engine, 
+while UI variations are managed through data.

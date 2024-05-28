@@ -1,0 +1,68 @@
+Industry standards suggest never keeping hardcoded data in components file, for example here, Body.js, Header.js etc.
+
+when writing constants in the utils folder, it is a convention to write them in upper case only.
+
+using export default, only supports the export of a single module.
+To export multiple constants, modules etc, we do something known as Named export.
+what we do is , we place export keyword before every module, constants etc.
+
+example:- export const abc="abc";
+          export const def="def";
+the above way is how we do multiple exports. Now importing single/default export was easy,
+to import multiple export, we do,
+import {abc} from './utils/constants'  (just an example for source file);
+Now it can be asked, can we mix it up, the answer is yes.
+example:- export const abc="abc";
+           const def="def";
+        export default def;
+        now as for the imports, the import for abc will still be,
+        import {abc} from './utils/constants', but, for def,
+        import def from './utils/constants', as if it was a single/default export.
+
+Now, coming to react hooks, react hooks are nothing but normal javascript functions.
+
+
+Whenever a state variable updates, React, re-renders the component.
+Now let's understand, how is React able to do this so fast. 
+###Diffing Algorithm:
+**Purpose: The diffing algorithm identifies the minimum number of operations (insertions, deletions, updates) needed to transform the 
+previous UI representation (usually a virtual DOM) into the new UI representation based on the updated application state.
+**Focus: It focuses on the differences between the old and new UI structures.
+**Output: The diffing algorithm returns a set of instructions or a patch that describes the necessary changes to be applied to the DOM.
+
+###Reconciliation Algorithm:
+
+**Purpose: The reconciliation algorithm takes the diffing algorithm's output (instructions or patch) and applies those changes to the 
+actual DOM in the browser.
+**Focus: It focuses on applying the changes identified by the diffing algorithm to efficiently update the real DOM.
+**Action: It updates the DOM by adding, removing, or modifying elements as instructed by the diffing algorithm.
+
+Diffing Algorithm: This is like comparing the current library layout (old UI) with a list of desired book positions (new UI). It 
+identifies which books need to be moved, added, or removed. 
+Reconciliation Algorithm: This is like physically moving the books based 
+on the instructions from the diffing algorithm. It ensures the library layout reflects the desired changes.
+
+
+now, useState() and useEffect() are the widely used React hooks;
+const [abc,setAbc]=useState("hey there"); // this is basically destructuring.
+
+the above code can be written as;
+const arr=useState("hey there");    |  const arr=useState("hey there");
+const [abc,setAbc]=arr;             | const abc=arr[0];
+                                    | const setAbc=arr[1];
+
+
+// module.js (exporting multiple items)
+export const name1 = "value1";
+export function funcName() {
+  // function body
+}
+
+// anotherModule.js (importing with wildcard)
+import * as allExports from "./module.js";
+
+console.log(allExports.name1); // Accesses "value1"
+allExports.funcName(); // Calls the exported function
+import * as aliasName from "module.js", you create an alias (aliasName) that refers to an object containing all the exports
+from the specified module (module.js).
+This way of exporting is known as wildcard export.

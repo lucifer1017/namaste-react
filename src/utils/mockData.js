@@ -1,56 +1,5 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-/**
- * 
- * #Header
- *  -Logo
- *  -NavItems(Home,About,Cart)
- * #Body
- *  -Search
- *  -RestaurantContainer
- *      -RestaurantCards-- 
- *          -img
- *          -Name, star rating, delivery time,price for two
- * #Footer
- *  -Copyright
- *  -Address
- *  -Links
- *  -Contact 
- * 
- */
-const Header = () => {
-    return (
-        <div className="header">
-            <div className="logo-container">
-                <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/70d89d4b-0b74-4414-a69b-54723b0564cb/de5qxip-9ba13b95-b97f-46c6-9dec-d4a70ab3805f.jpg/v1/fill/w_1032,h_774,q_70,strp/food_delivery_app_logo_by_jowelahmed_de5qxip-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTYwIiwicGF0aCI6IlwvZlwvNzBkODlkNGItMGI3NC00NDE0LWE2OWItNTQ3MjNiMDU2NGNiXC9kZTVxeGlwLTliYTEzYjk1LWI5N2YtNDZjNi05ZGVjLWQ0YTcwYWIzODA1Zi5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.sJI0fGFznLTZPsvWfPtOvstKgmrFMVLzisGhvM8x4u8" className="logo" />
-            </div>
-            <div className="nav-items">
-                <ul>
-                    <li>Home</li>
-                    <li>About Us</li>
-                    <li>Contact</li>
-                    <li>Cart</li>
-                </ul>
-            </div>
 
-        </div>
-    )
-}
-const RestaurantCard = (props) => {
-    const { resData } = props;
-    const { name, cloudinaryImageId, cuisines, avgRating, sla, costForTwo } = resData?.info;
-    console.log(resData);
-    return (
-        <div className="res-card" >
-            <h3>{name}</h3>
-            <img src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/" + cloudinaryImageId} alt="res-logo" className="res-logo" />
-            <h5>{cuisines.join(", ")}</h5>
-            <h5>{avgRating} Stars</h5>
-            <h5>{sla.deliveryTime} Mins</h5>
-            <h5>{costForTwo}</h5>
-        </div>
-    )
-}
+
 const resObj = [
     {
         "info": {
@@ -68,7 +17,7 @@ const resObj = [
                 "Mughlai",
                 "Desserts"
             ],
-            "avgRating": 4.2,
+            "avgRating": 3.8,
             "parentId": "10804",
             "avgRatingString": "4.2",
             "totalRatingsString": "1K+",
@@ -145,7 +94,7 @@ const resObj = [
             "cuisines": [
                 "Pizzas"
             ],
-            "avgRating": 4.2,
+            "avgRating": 3.2,
             "parentId": "721",
             "avgRatingString": "4.2",
             "totalRatingsString": "1K+",
@@ -396,7 +345,7 @@ const resObj = [
                 "Biryani",
                 "Mughlai"
             ],
-            "avgRating": 4.3,
+            "avgRating": 3.7,
             "parentId": "92687",
             "avgRatingString": "4.3",
             "totalRatingsString": "1K+",
@@ -1756,33 +1705,4 @@ const resObj = [
     }
 ]
 
-
-
-const Body = () => {
-    return (
-        <div className="body">
-            <div className="search">
-                Search
-            </div>
-            <div className="res-container">
-                {resObj.map((restaurant, index) => (
-                    <RestaurantCard key={restaurant.info.id} resData={restaurant} />
-
-                ))}
-
-
-            </div>
-        </div>
-    )
-}
-const AppLayout = () => {
-    return (
-        <div className="clas">
-            <Header />
-            <Body />
-        </div>
-    )
-};
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<AppLayout />);
+export default resObj;

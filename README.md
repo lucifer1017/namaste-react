@@ -15,3 +15,28 @@
 - Error handling and suggestions to fix them
 - Provides a way to host on HTTPS
 - Tree Shaking- remove unused code for you
+
+
+# Food-orderig app
+/**
+ * 
+ * #Header
+ *  -Logo
+ *  -NavItems(Home,About,Cart)
+ * #Body
+ *  -Search
+ *  -RestaurantContainer
+ *      -RestaurantCards-- 
+ *          -img
+ *          -Name, star rating, delivery time,price for two
+ * #Footer
+ *  -Copyright
+ *  -Address
+ *  -Links
+ *  -Contact 
+ * 
+ */
+
+ # React-Hooks
+ - They are Normal JS utility functions, written by facebook developers..
+ - Major hooks, that are most widely used are useState() and useEffect.

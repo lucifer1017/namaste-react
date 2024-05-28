@@ -25,6 +25,7 @@ margin: 10px;
 .res-container{
     display: flex;
     flex-wrap: wrap;
+    margin: 10px;
 }
 .res-card{
     padding: 4px;
@@ -39,13 +40,36 @@ margin: 10px;
      
     }
 }
-.search{
-    padding: 10px;
+.search-container{
+    margin: 10px;
     
 }
+.search-bar {
+    display: flex; /* Allow horizontal arrangement of elements */
+    width: 300px; /* Make the search bar full width */
+    margin-bottom: 1rem; /* Add some margin below the search bar */
+  }
+  
+  .search-bar input {
+    flex: 1; /* Allow input field to grow and take up available space */
+    padding: 0.5rem 1rem; /* Add padding around the input text */
+    border: 1px solid #ccc; /* Add a border to the input field */
+    border-radius: 3px; /* Add rounded corners to the input field */
+    font-size: 1rem; /* Set the font size for the input text */
+  }
+  
+  .search-bar input:focus {
+    border-color: #66afe9; /* Change border color on focus for better UX */
+    outline: none; /* Remove default outline around the input on focus */
+  }
+  
 .res-logo{
     
     width: 100%;
     max-height: 200px;
     
+}
+.filter-btn{
+    margin: 10px;
+    cursor: pointer;
 }

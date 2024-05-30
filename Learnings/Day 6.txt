@@ -1,0 +1,60 @@
+Talked about Monolithic and Microservice Architecture. 
+Let's now look at the ways the UI or the web application fetches data from the Backend:
+The first approach is as soon as the page loads, we make an API call and render the received response to display on the UI.
+The second approach is as soon as the page loads, we first render the skeleton(or the data we alread have) on the UI, make an API call
+and then again render the received response.
+The second approach is better as it provides a better UX, doesn't feel laggy and also, React has one of the best rendering 
+mechanisms, so the twice rendering isn't much of a bother.
+
+useEffect ==> syntax:
+useEffect(()=>{},[]) ==> two arguments, one callback function and the other a dependency array.
+when will the useEffect hook/function be called? ==> It will be called after the component has been rendered. i.e, first the component
+will be rendered, and after it has done rendering(i.e after the render cycle is finished), the useEffect hook will be called.
+When we tried to call Swiggy's API using async await fetch, the call was blocked. It was blocked by the browser due to 
+CORS(cross origin resource sharing) policy. It says, our browser block us from making API call from one origin to another(in this case
+our localhost to Swiggy's API origin,Swiggy.com).
+Read about optional chaining, easy concept. 
+Shimmer UI=> Shimmer is a temporary animation placeholder for when data from the service call takes time to get back and we 
+don't want to block rendering the rest of the UI. Basically, it resembles the page's actual UI , so users will understand(get the idea)
+how quickly the webpage or mobile app will load even before the content has shown up(like loading a fake page, until we get the
+actual data ).(This is an industry level practice which everybody follows). 
+
+
+Conditional Rendering==> Rendering components/elements based on a condition. For example, using shimmer UI while our page fetches the
+data .
+
+Now let's talk about the order in which the funtions/hooks are called.
+
+Please check code for reference. Now as the component starts, I wrote the useEffect hook, in which a fetchdata function was 
+called(see the code for reference). Now, after that the shimmer ui code and then the return statement of the component. Now, I put a 
+console log in each one of them. So when refreshed, first the shimmer ui, then useEffect then fetchdata and then at last, component.
+Note###: When useState is used, as in the login/logout button in Header.js,when clicked, the whole Header component is rendered again 
+quickly.
+Rendering a component==> In React, rendering a component refers to the process of turning the component's code (including its JSX) 
+into a viewable element on the screen. It's essentially how React translates the component's definition into the HTML structure that 
+appears in the browser.
+Now syntax of useState is:
+const [abc,setAbc]=useState("hello");
+now it is wondered, how useState is able to change a const variable.
+The ans is, it does not. Let's say,
+setAbc("hey"); // this statement is executed.
+Now this renders the whole component again and the new const variable(than the before one) abc is equal to hey, instead of hello.
+****IMP****, So, whenever state variable updates,react triggers a reconciliation cycle(it re-renders the whole component again)
+Now, we move on to creating the searchbox, as attributes in the input tag==> we have type=text, placeholder=Search and value={searchText}.
+const [searchText,setSearchText]=useState("");
+now, after saving this, when we go to the website, we see, we are unable to type anything in the searchbox, as the value of the input
+is bound to the searchText which is initially empty and thus isn't changing,i.e even when something is typed, the input value
+still remains empty due to this binding, now to avoid this, we have to change the value of
+searchText on the go as anything is typed into the searchbox. Now, to detect change in the value inside input box,
+we use the onChange event handler. now, inside onChange, we are using setSearchText(event.target.value). Now as we type any character
+inside the input box, or changing anything in the input, the whole body component is rerendered and only the input element is updated.
+Now, moving on to the logic of the search, what we want is that the received response should not be altered according to the
+searchText. So to avoid this from happening, we created a copy list at which the updates happen, and the filter is only applied on 
+the main response list to get the search results.
+
+
+
+
+
+
+

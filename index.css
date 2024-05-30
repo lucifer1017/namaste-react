@@ -13,7 +13,7 @@ padding: 2px;
 }
 .nav-items>ul{
     font-size: 24px;
-    margin: 3px;
+    margin: 10px;
 display: flex;
 list-style-type: none;
 
@@ -21,6 +21,35 @@ list-style-type: none;
 .nav-items>ul>li{
 padding: 10px;
 margin: 10px;
+}
+.login{
+    cursor: pointer;
+    margin: 5px;
+    padding: 0 4px;
+    
+
+}
+.filter{
+    display: flex;
+    flex-wrap: wrap;
+}
+.search{
+    margin: 10px;
+}
+.search-btn{
+    cursor: pointer;
+}
+.shimmer-container{
+    margin-top: 50px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.shimmer-card{
+margin: 8px;
+
+width: 300px;
+height: 400.361px;
+background-color: #b6b6b6;
 }
 .res-container{
     display: flex;
@@ -40,28 +69,7 @@ margin: 10px;
      
     }
 }
-.search-container{
-    margin: 10px;
-    
-}
-.search-bar {
-    display: flex; /* Allow horizontal arrangement of elements */
-    width: 300px; /* Make the search bar full width */
-    margin-bottom: 1rem; /* Add some margin below the search bar */
-  }
-  
-  .search-bar input {
-    flex: 1; /* Allow input field to grow and take up available space */
-    padding: 0.5rem 1rem; /* Add padding around the input text */
-    border: 1px solid #ccc; /* Add a border to the input field */
-    border-radius: 3px; /* Add rounded corners to the input field */
-    font-size: 1rem; /* Set the font size for the input text */
-  }
-  
-  .search-bar input:focus {
-    border-color: #66afe9; /* Change border color on focus for better UX */
-    outline: none; /* Remove default outline around the input on focus */
-  }
+
   
 .res-logo{
     

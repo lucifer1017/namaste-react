@@ -1,0 +1,103 @@
+Why do we use, useEffect hook?
+The useEffect hook is a powerful tool in React for managing side effects in functional components. Here's a breakdown of 
+its key purposes:
+
+What are Side Effects in React:
+
+Side effects are operations that interact with components outside of the standard React render cycle. These can include:
+Data fetching: Retrieving data from APIs or databases.
+Subscriptions: Setting up subscriptions to external data sources or events.
+Timers: Setting up timers or intervals for delayed actions.
+DOM manipulation: Directly modifying the DOM outside of the render function (use with caution).
+Why Use useEffect?
+
+React's core functionality revolves around rendering UI based on component state and props.
+Side effects can introduce complexity and potential issues if not managed properly.
+useEffect provides a structured way to perform side effects within functional components, ensuring they run at the appropriate times 
+in the component lifecycle.
+
+ROUTING IN REACT(using react-router-dom)
+Note:-- ****Whenever we have to develop routes, we have to create/setup routing configurations(in our code, inside App.js);
+
+we start by importing createBrowserRouter from react-router-dom;
+by configurations we mean, some information that will define what will happen on a specific route
+const appRouter=createBrowserRouter([{},{}])  ==> it takes a list of objects and each object, defines a certain path and what will be there on that 
+path(element);
+
+Now after the configurations are done, we need to provide this configuration to render it. For this, we use RouterProvider from
+react-router-dom only.  
+Now, where we were doing root.render , there
+
+
+we will render RouterProvider component like this.
+
+root.render(<RouterProvider  router={appRouter}/>);
+
+now, to create errorElement, we created a Error.js file in components. In this, we also used a hook provided by react-router-dom 
+called , useRouteError. This hook gives us more information about the error like what the error was, a route fail error, a network
+fail error etc. Syntax:
+
+const err=useRouteError();
+this is an object which contains the status code, statusText and other error related fields.
+
+***IMP: creating children routes=> This is done by passing a list of children inside the object where element is AppLayout in our
+ code as follows,
+ const appRouter = createBrowserRouter([{
+    path: '/',
+    element: <AppLayout />,
+    children: [{
+        path: '/',
+        element: <Body/>
+    },{
+        path: '/about',
+        element: <About />
+    },
+    {
+        path: '/contact',
+        element: <Contact />
+    }],
+    
+    errorElement: <Error />
+},
+])
+and to pass this configuration of subroutes or children routes, we use the Outlet component provided by react-router-dom,
+so according to the path, the component is rendered inside AppLayout, i.e the Outlet component is replaced by the child component. 
+Also, it should be noted, Outlet component is not visible
+on the Actual DOM, instead, the code of the component is present there.
+
+***IMP: creating a link to the about page,
+When we use anchor tag(<a href=""></a>), to go to a new path, it refreshes the whole page. Now React has provided a superpower
+that allows us to move to a new route, navigate to a new page without refreshing the page, it is link provided by the react-router-dom
+So link can be summarised as a superpower given by react-router-dom that navigates to a new page without refreshing.
+
+React applications are known as Single-Page applications. As, the application is a whole single page, a single component
+and all the routing, all the new pages are components interchaning themselves, i.e, even when we go to a new route, it does not load 
+a new page, it just interchanges the components of the current page and render them to give us a new page, although it is the same page
+with just new component(s) via Client-Side Routing.
+
+Dynamic Routing:- 
+Dynamic path is given by using ':', ex- path = "/restaurants/:resId", now resId is Dynamic in nature, which changes according to 
+Id of the diff restaurants. 
+Also, when explaining the interviewer, speak while you code.
+
+Now, to read the Dynamic resId passed as paramter in the configuration, we use the {useParams} hook from react-router-dom.
+Let me point out, we use Link instead of anchor tag, now inherently, Link uses anchor tag as is displayed on the Real DOM.
+Link, provided by react-router-dom, is a wrapper over anchor tag, so when you create a Link,  react-router-dom keeps a track 
+that the defined element is a Link and you don't have to refresh the page when it is clicked. the browser understands
+anchor tag only, and not Link, Link is a powerful feature provided to us by  react-router-dom,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

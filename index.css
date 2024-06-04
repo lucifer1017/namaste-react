@@ -89,3 +89,21 @@ background-color: #b6b6b6;
     margin: 10px;
     cursor: pointer;
 }
+.user{
+    padding: 10px;
+    border: 1px solid black;
+    margin: 5px;
+    width: 300px;
+}
+.userclass{
+    padding: 10px;
+    border: 1px solid black;
+    margin:5px;
+    width: 300px;
+}
+.userclass-img{
+    display: flex;
+    flex-wrap: wrap;
+    width: 280px;
+
+}

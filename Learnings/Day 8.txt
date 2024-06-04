@@ -1,0 +1,130 @@
+CLASS BASED COMPONENTS:
+
+they are basically JS classes which extends React.Component with a render() function inside it which returns a peice of JSX
+ex:
+
+class UserComponent extends React.Component{
+    render(){
+        return(
+            <div className="container">
+            <h1>
+            Hello world
+            </h1>
+            </div>
+
+        )
+    }
+}
+export default UserComponent;
+Now a thing to note here is that, class based Component is exported and imported like functional COMPONENT.
+We pass props to class based components the same way we do in functional components. Now, receiving and using those components is done,
+
+class UserComponent extends React.Component{
+    constructor(props){
+        super(props);
+    }
+    render(){
+        return(
+            <div className="container">
+            <h1>
+            {this.props.name} // this is how we utilise the props.
+            </h1>
+            </div>
+
+        )
+    }
+}
+It can be asked, why super(props) is written inside constructor,
+When you create a class component that extends another component (inheritance), there's a constructor chain involved.
+Calling super(props) in the child component's constructor initiates this chain and ensures the parent class's constructor is executed
+ first. The parent class constructor might be responsible for setting up default state or binding methods to the this context. 
+ By calling super(props), you guarantee this essential initialization happens before the child's own logic, including accessing props.
+Without super(props), the parent's constructor isn't triggered. This means the setup process for the parent component might not be 
+complete, and potentially crucial steps for handling props within the parent might be skipped.
+
+###No props Argument Passed Down:
+props is a special object containing properties passed down from the parent component. By calling super(props), you're not directly
+ initializing the parent class with props, but you are essentially passing this props object down the constructor chain.
+This makes the props object available within the child component's constructor and throughout its lifecycle. The child component can 
+then access and utilize the properties passed down from the parent. If you don't call super(props), this crucial step of passing 
+props down the chain is bypassed. The child component's constructor won't receive the props object, leaving it undefined or 
+inaccessible within the child.
+
+***Note: Whenever you create an instance of the Class, constructor is called, we all know that. So logically,
+constructor is the best place to create state variables.
+To create state variables, we write the below code inside constructor,
+
+this.state={
+    count:0,
+    name:"",
+
+}
+to use it,we do,
+ this.state.count or this.state.name;
+ alternatively, we can do,
+ const {count,name}=this.state;
+###NOTE:- Never update State variables directly, for ex, never do, this.state.count=this.state.count+1;
+ ***Now, to update the state variables,
+ we do, 
+ this.setState({
+    count: this.state.count+1
+ },name:"baloney")
+ **Now suppose, there were ten state variables,and inside setState we updated only two of them, only these two will be updated,
+ Without touching the others.
+ ********NOTE:- instead of writing 
+ class UserComponent extends React.Component and importing React from 'react',what we can do is
+
+ class UserComponent extends Component and import {Component} from 'react' , these two are one and the same thing, Component is
+ inside curly braces as it is a named Import.
+
+ Now, we know, the class based component has a constructor and render method, the order in which they are called are
+ first the constructor and then the render method, there is also another method, known as componentDidMount(){}, which is 
+ called at the last when the Component has mounted/loaded on to the page.
+ Now, suppose if the parent component is also class based and also has all these methods, the order in which the methods are called is,
+
+ Parent constructor -> Parent Render-> Child constructor-> Child render-> Child componentDidMount-> Parent componentDidMount.
+ Now, let's say the Parent component is loaded, a new instance of Parent class is created, so the constructor of Parent is called,
+ then the render of the parent is called, now it sees a child component, so it triggers the lifecycle of child component, then Child 
+ component is called, a new instance of child class is created, so the constructor of child is called, then child render is called.
+ Now,since the componentDidMount is called after the component has been mounted/loaded, it's called in the end for a component, so
+when the parent component is mounting, it sees the child component, mounts it, the mounts itself, thus the order mentioned.
+Now, it can be noted when there are two  UserComponent inside the parent component, the order in which lifecycle methods are called
+is 
+Parent constructor -> Parent Render-> firstChild constructor-> firstChild render-> secondChild constructor-> secondChild render->
+firstChild componentDidMount-> secondChild componentDidMount->Parent componentDidMount.
+One can ask, why this behaviour? So, to answer this, we should know about the Render and commit phase of React.
+Render Phase===> constructor-> render. 
+Commit Phase===> React updates DOM and refs -> componentDidMount is called.
+Now, we know, DOM manipulation is the most expensive (time wise) thing when we are updating a component(i.e when we are loading a 
+component, DOM manipulation is the most time taking process)
+So, in case of two children,
+React batches(bundles together) the render phase of the children and then componentDidMount is called for each child(i.e batches 
+the commit phase together) and the componentDidMount for Parent is called.
+
+
+****NOTE:- componentDidMount is used to make API calls
+To make API calls in class based component,
+we make the componentDidMount method async, like,
+this.state{
+    userInfo:{},
+
+}
+async componentDidMount(){
+
+const data=await fetch("API_URL");
+const json=await data.json();
+
+this.setState({
+    userInfo: json,  //where userInfo is a state variable.
+})
+
+}
+
+now, let's go over the lifecycle again.Mounting cycle--> First the mounting is taken care of(load and render), i.e, the constructor is called,
+now, the render method is called, now the component is mounted on the DOM with the available data. After this, componentDidMount is called
+and the api calls happen. After receiving the response from the apis, the setState(triggers the reconciliation process and starts the
+ update cycle) method is used to update the state variables and the --update cycle-- render method is called again to update the DOM with the 
+ new data. After this, the componentDidUpdate method is called. Unmounting cycle-- after the component is Unmounted, i.e we visit a
+ different page, the componentWillUnmount() method is called. These 3 cycles(Mounting, Update and Unmounting) are the lifecycle of 
+ a class based component
+ ***NOTE:- Never compare these lifecycle methods to functional components

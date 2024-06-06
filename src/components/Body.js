@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import Shimmer from "./Shimmer";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () => {
     const [resList, setResList] = useState([]);
     const [searchText, setSearchText] = useState("");
-    const [filteredres, setFilteredres] = useState([]);
+    const [filteredres, setFilteredres] = useState([])
 
     useEffect(() => {
         fetchData();
@@ -24,6 +25,13 @@ const Body = () => {
 
     //This is an example of Conditional Rendering
     //resList.length === 0?<Shimmer /> :
+
+    const onlineStatus = useOnlineStatus();
+    if (onlineStatus === false)
+        return (
+            <h1>Looks like you're offline, kindly check your connection</h1>
+        )
+
 
 
     return resList?.length == 0 ? <Shimmer /> : (

@@ -1,0 +1,47 @@
+Well, we learned about how to write our own custom Hooks. Why is there a need? Basically that makes our code more readable, more 
+maintainable and more testable.
+For example, in RestaurantMenu.js, we are writing data fetching logic and UI related logic in the same file, what can be done is, we
+can write data fetching logic in another file as a custom hook and RestaurantMenu.js file can just take care of UI logic. This way,
+testing becomes easier in case of a bug, for example, if it's a UI related bug, we know where to look, similarly for data fetching bug.
+
+As a convention, we name our custom hooks starting with the keyword in lowercase, use, so as to let react know it's a hook(utility fn);
+Also, as a general process, it is placed inside the utils folder. While writing the custom hooks, we need to take care of the
+necessary parameters and what is to be returned.
+What should be the process of writing a custom hook?
+1)Finalise the contract=> what is the input of the hook and what is the output.
+2) Write the code following the logic of what is to be done and return output accordingly.
+
+****SUPER-IMP: We know, that parcel bundles the code inside the dist folder in a single index.js file, now, when the webapp grows,
+the number of components grows, and thus the size of index.js grows and that can make loading the app slower. To avoid this,
+the concept of {Chunking, Lazy loading, Code Splitting, Dynamic Bundling, On demand Loading, Dynamic import} (different name, 
+same purpose). In this, the code of the components not present is bundled in a different file which is not loaded until it is 
+required. For example, in our code, in header <li>, if we add a new component named Grocery, we would not want it to be loaded
+since it is not required currently, so in this case, only index.js file is loaded, now, when we go to/click on the Grocery Link,
+it now loads the Grocery file which is required, thus minimizing the load time. These concepts help us when we want to scale our 
+applications.
+*****How to implement them?;;; To implement them, we use a named export from react, known as lazy.
+
+syntax, 
+let's say, our component is named Grocery.
+First we add it to the router configuration as <Grocery/>
+Then, 
+const Grocery= lazy(()=>import("file_path")) // where file_path defines the path of the file/component. And also, the import for Grocery
+has to be removed that was done earlier to import the component.
+by doing this, we achieve lazy loading. Now, simply writing const Grocery= lazy(()=>import("file_path")), gives an error ---->
+A component suspended while responding to synchronous input. This error was received as, we are loading our Grocery code on demand,
+i.e, the Grocery code was loaded only when we went to the Grocery page, now fetching the code in this case takes some time, but,
+when React tries to render the code it is not present due to this delay, so, react suspends the component. To handle this situation,
+"react" provides us with a named export component, Suspense.
+
+How to use it?
+Well, when adding Grocery to the routing configuration,we do,
+
+
+ <Suspense fallback={<h1>Loading...</h1>} ><Grocery/></Suspense> // inside Suspense, we ought to pass fallback, which is like the
+ intermediate JSX/component that will be displayed till the code for Grocery is fetched, can also pass shimmer UI here.
+
+
+
+
+
+

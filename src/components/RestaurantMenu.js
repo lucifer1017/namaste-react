@@ -13,11 +13,14 @@ const RestaurantMenu = () => {
 
 
     return (
-        <div className="res-menu">
-            <h1>{name}</h1>
-            <h2>{cuisines.join(", ")}</h2>
-            <b><p>Avg. Rating : {avgRating}</p></b>
-            <b><p>{costForTwoMessage}</p></b>
+        <div className="p-4 m-4 border border-solid border-black w-[300px]">
+            <h1 className="font-bold underline  items-center">{name}</h1>
+            <div className="p-2 m-2 border border-solid border-black">
+                <h4>{cuisines.join(", ")}</h4>
+                <p >Avg. Rating : {avgRating}</p>
+                <p>{costForTwoMessage}</p>
+            </div>
+
 
             <ul>
 

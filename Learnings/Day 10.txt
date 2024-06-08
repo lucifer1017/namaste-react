@@ -1,0 +1,15 @@
+npm install -D tailwindcss postcss
+npx tailwindcss init // this creates the tailwind.config.js file.
+
+using these commands, we installed tailwindcss and postcss into our app. postcss is a tool for transforming CSS with JavaScript.
+So basically, tailwindcss uses postcss behind the scenes. Now, we ought to a config file for post css, so in our root directory,
+we create a  .postcssrc file. Now, parcel needs postcss to understand tailwindcss. In tailwind.config.js file, 
+we add "./src/**/*.{html,js,ts,jsx,tsx}", in content array, this means the contetnt attributes now knows list of types of files 
+where tailwind can be used. Now we paste, @tailwind base;
+@tailwind components;
+@tailwind utilities; 
+inside our index.css file and delete everything else. From here on, no more code will be written inside index.css file.
+tailwindcss gives you className for every css that you want to write.
+That being done, we start applying className's to the JSX elements. Also, with tailwind intellisense installed, when hovered on the className, it shows the actual css
+it applies.
+

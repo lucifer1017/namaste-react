@@ -1,38 +1,55 @@
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
+import RestaurantCategory from "./RestaurantCategory";
+import { useState } from "react";
 const RestaurantMenu = () => {
     const { resId } = useParams();
+    const [showIndex, setShowIndex] = useState(null);
     const resInfo = useRestaurantMenu(resId);
     if (resInfo == null) {
         return <Shimmer />
     }
-    // console.log(resInfo)
+    //  console.log(resInfo)
     const { name, cuisines, avgRating, costForTwoMessage } = resInfo?.data?.cards[2]?.card?.card?.info;
-    const { itemCards } = resInfo?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card;
+    // const { itemCards } = resInfo?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card;
+    // console.log("resmenu line 13", resInfo?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards)
+    const categories = resInfo?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter((cat) => {
+        return cat?.card?.card?.["@type"] === "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    });
+    // console.log(categories);
 
 
     return (
-        <div className="p-4 m-4 border border-solid border-black w-[300px]">
-            <h1 className="font-bold underline  items-center">{name}</h1>
-            <div className="p-2 m-2 border border-solid border-black">
-                <h4>{cuisines.join(", ")}</h4>
-                <p >Avg. Rating : {avgRating}</p>
-                <p>{costForTwoMessage}</p>
-            </div>
+        <div className="text-center">
+            <h1 className="font-bold  text-2xl my-6">{name}</h1>
+
+            <h4 className="font-bold  text-lg">{cuisines.join(", ")}</h4>
+            {/* <p >Avg. Rating : {avgRating}</p>
+            <p>{costForTwoMessage}</p> */}
+            {categories.map((category, index) => {
+                // console.log(" index:", index)
+                return <RestaurantCategory key={category?.card?.card?.title}
+                    data={category?.card?.card}
+                    showItems={index === showIndex ? true : false}
+                    setShowIndex={() => {
+                        if (showIndex !== index)
+                            setShowIndex(index)
+                        else
+                            setShowIndex(null);
+                    }}
+                />
+            })}
 
 
-            <ul>
-
-                {itemCards?.map((res) => {
-                    return <li key={res?.card?.info?.id}>{res?.card?.info?.name}-{" Rs."}
-                        {res?.card?.info?.price / 100 || res?.card?.info?.defaultPrice / 100}</li>
-                })}
-
-
-            </ul>
         </div>
     )
 }
-
+/**
+ * data={category?.card?.card}
+                    showItems={index === showIndex ? true : false}
+                    setShowIndex={() => {
+                        return setShowIndex(index);
+                    }
+ */
 export default RestaurantMenu;

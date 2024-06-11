@@ -1,22 +1,24 @@
 import RestaurantCard from "./RestaurantCard"
 import { RESTAURANT_API } from "../utils/constants";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import Shimmer from "./Shimmer";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
     const [resList, setResList] = useState([]);
     const [searchText, setSearchText] = useState("");
     const [filteredres, setFilteredres] = useState([])
-
+    const { loggedInUser, setUserName } = useContext(UserContext);
+    // console.log("list of res", resList);
     useEffect(() => {
         fetchData();
     }, [])
     const fetchData = async () => {
 
-        const receivedData = await fetch(RESTAURANT_API);
+        const receivedData = await fetch(RESTAURANT_API)
         const response = await receivedData.json();
         setResList(response?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants); // the ? is part of Optional chaining
         setFilteredres(response?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
@@ -65,6 +67,11 @@ const Body = () => {
                             setFilteredres(filteredList);
                         }}
                     >Top Rated Restaurants</button></div>
+                <div className="m-4 p-4 flex items-center">
+                    <label className="m-2">User Name </label>
+                    <input className="border border-black p-2" value={loggedInUser}
+                        onChange={(e) => setUserName(e.target.value)} />
+                </div>
 
             </div>
 

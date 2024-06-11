@@ -1,0 +1,147 @@
+In React, a higher-order component (HOC) is an advanced technique for reusing component logic. It's 
+a function that takes an existing component as an argument and returns a new component that wraps the
+original component. This new component can add additional functionality or modify the behavior of the
+original component without directly changing its code.
+
+for ex, let's say we want to enhance our RestaurantCard component, to do that,we ought to create a export function that returns a new 
+enhanced component.
+// this HOC code will be written inside RestaurantCard only.
+export const enhancedRestaurantCard=(RestaurantCard)=>{
+    return (props)=>{ // this is the new component being returned which returns a piece of JSX, thus props are passed here
+    return(
+        <label>Promoted</label> // let's say we want to add a promoted label to it.
+        <RestaurantCard {...props} /> // here, we use spread operator "..." and use props. this is how it's done
+    )
+
+    }
+}
+
+///this code will be written inside Body.js.
+
+const NewRestaurantCard= enhancedRestaurantCard(RestaurantCard);
+
+now, inside the received json, if promoted is true, i.e when we are applying map function to use RestaurantCard,
+
+{restaurant?.info?.promoted ?(
+<NewRestaurantCard resData={restaurant} />
+):(
+< RestaurantCard resData={restaurant}/>
+)} //as js inside jsx should be inside curly braces.
+
+All the React applications have two layers, one is the UI layer, other is the data layer and the UI layer is powered by the data layer
+The data layer consists of our props, state and local variables.
+
+Now, we move towards building accordion for our restaurant menu, so we created two new components,
+one for the RestaurantCategory.js and further more, displaying list of each category, ItemList.js.
+Now, we wanted to toggle displaying and not displaying our ItemList by using state variables for each
+ItemList. To do this, we displayed the ItemList only when the state variable was true, and toggled using
+onClick handler. After this functionality was implemented, we wanted to move one level up and 
+display only the category that was clicked upon and collapsing all others, to do this, we accomodate
+an advanced concept known as Lifting State up. Currently, the state was in control of the child 
+component(uncontrolled component), now we want the state to be controlled by the parent(controlled
+component).
+to do this, we pass a showItems variable, which checks if the current index item is clicked, should
+showItems be true for the current item, also, we pass a setShowIndex function as prop to the child 
+component which will toggle the state inside the parent component.
+
+Props drilling: Prop drilling refers to the practice of passing data down through multiple levels of 
+nested components in a React application. This can be a tedious and cumbersome way to pass info 
+down to the child components when the depth of nested components increases. To avoid this, we use
+React Context.
+Now, Context solves the problem of props drilling and it can be accessed from anywhere in our app.
+
+How to create context now,
+import { createContext } from "react";
+
+
+const UserContext = createContext({
+    loggedInUser: "Def User",
+})
+
+export default UserContext;
+
+Now, to access the context,
+React provides us with a hook, a named export, import {useContext} from "react"
+
+const data=useContext(UserContext);
+console.log(data.loggedInUser);
+
+So this is how it is used inside functional components.
+***NOTE:- So what is the need for props if we can use Context. props are for internal communication
+between components, while context is used whenever we want to access some object, fn, 
+from anywhere in the application.
+
+In class based components, we do not have hooks,
+let's say, I want to use Context inside my about page, which is a class based component. To do this
+import UserContext from "file_path"
+
+now, inside the render method,
+we do,
+<UserContext.Consumer>
+
+{(data)=>}               // inside UserContext.Consumer, we have a callback fn which has the access
+                        // to the data,and this data is the context data.
+
+</UserContext.Consumer>, Now this being done, let's move on to how the value is updated for the context.
+
+let's say in our App.js file, we want to update our loggedInUser value.
+so we would first have to import UserContext from "file_path".
+
+then, what we have to do is, wrap our components which should include the updated value.
+
+const AppLayout = () => {
+    
+    return (
+        <UserContext.Provider value={{loggedInUser:"Karan Grover"}}> // this will display updated value
+                                                                    // all over our application.
+        <div className="app">
+            <Header />
+            <Outlet />
+
+        </div>
+        </UserContext.Provider>
+    )
+};
+
+Now, let's say,we want to update the Header with another value different from the other components 
+of our app,we would have to do something like,
+
+const AppLayout = () => {
+    
+    return (
+        <UserContext.Provider value={{loggedInUser:"Karan Grover"}}> // this will display updated value
+                                                                    // all over our application.
+        <div className="app">
+        <UserContext.Provider value={{loggedInUser:"Virat Kohli"}}>
+            <Header />
+            </UserContext.Provider>
+            <Outlet />
+
+        </div>
+        </UserContext.Provider>
+    )
+};
+
+in the above code, Karan Grover will be used all over the application except the header,
+where Virat Kohli will be used.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

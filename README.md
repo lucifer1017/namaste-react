@@ -40,3 +40,11 @@
  # React-Hooks
  - They are Normal JS utility functions, written by facebook developers..
  - Major hooks, that are most widely used are useState() and useEffect.
+
+ # Redux Toolkit
+ - Install the libraries, @reduxjs/toolkit and react-redux
+ - Build our Store
+ - Connect our store to our app
+ - Slice (cartSlice)
+ - dispatch(action)
+ - selector

@@ -1,0 +1,148 @@
+We are going to learn about Redux. It is to be noted, Redux works in the data layer of our application
+And thus, the UI and the Data layer work in sync to bring life to our react application
+Also, there is a misconception in using Redux, companies start using redux from day 1 of building
+their application. It can be pointed out, Redux is not mandatory. Redux and React are different libraries
+Redux is not the only library that is used for managing state. There is also another popular library,
+Zustand. Redux offers easy debugging. So, in our application we will be using Redux-toolkit alongwith
+React-Redux. It can be put to assumption that Redux(Redux-toolkit) store is a big JSobject and it is kept
+in a central global space. Inside the redux store, we have parts serving different purpose. These parts
+are known as slices. For ex- there can be user slice(containing data about the user), there can be 
+a cart slice(maintaining cart info) etc. To keep data separate, we make logical partitions and These
+logical partitions are known as slices. We cannot directly modify a slice, the way to do that is ,
+for ex- we click the add button on our menu page for our restaurant, it should reflect in our cart,
+but since it cannot be modified directly, we dispatch an action, after dispatching an action, it calls
+a function, and this function modifies the cart. This function is known as reducer.
+So in simple words, when we click the add button, it dispatches an action , which calls our reducer 
+function which updates the slice of our redux store. This is how we write data, now to read data,
+for that we use something known as a selector. We will use the selector and it will provide us with 
+the required data. When we use selector, this phenomenon is known as subscribing to the store.
+As in the case of header component which has the cart in it,  we say the header component is subscribed
+to our store, when we say subscribed, we mean it is in sync with the store. Due to the sync, when the 
+data inside the store changes, the header component updates automatically. 
+Q: How do we subscribe to the store?
+Ans: As told above, we subscribe to the store using a selector.
+
+Creating a store, now, after installing @reduxjs/toolkit (Redux toolkit(RTK)) and react-redux,we move on to creating our store,
+
+In the utils folder, we create a file called appStore.js in which we configure our store like,
+import {configureStore} from "@reduxjs/toolkit"//from RTK because,configuration is a part of Redux 
+//not React
+
+    const appStore = configureStore({});
+    export default appStore;
+
+
+now, we move on to our App.js file, where we will provide our store to our react application,
+to do that, we do 
+import { Provider } from "react-redux"; // from react-redux, because it is a link bridge between both
+import appStore from "./utils/appStore";
+const AppLayout = () => {
+    const [userName, setUserName] = useState("");
+    return (
+        <Provider store={appStore}> //here we pass a prop store, which is the store we created.
+        <UserContext.Provider value={{ loggedInUser: userName, setUserName }}>
+            <div className="app">
+                <Header />
+                <Outlet />
+
+            </div>
+        </UserContext.Provider>
+        </Provider>
+    )
+};
+
+now, we further move on to create a cart slice for our app, to do that, we create a cartSlice.js 
+inside utils folder.
+import { createSlice } from "@reduxjs/toolkit";
+
+const cartSlice = createSlice({
+    name: 'cart',
+    initialState: {
+        items: ["burger","pizza"]
+    },
+    reducers: {
+        addItem: (state, action) => {
+            //mutating the state here
+            state.items.push(action.payload);
+        },
+        removeItem: (state, action) => {
+            state.items.pop() //written for sake of simplicity, otherwise would have found out the 
+            //the index of the item using action.payload and stuff and then remove that
+            //particular item
+        },
+        clearCart: (state) => { //can avoid writing action here, not necessary
+            state.items.length = 0;
+        }
+    }
+});
+
+export const { addItem, removeItem, clearCart } = cartSlice.actions; //this line and line no.26 are syntax redux uses, remember them.
+
+export default cartSlice.reducer;
+
+
+import { configureStore } from "@reduxjs/toolkit"
+import cartReducer from './cartSlice'
+
+const appStore = configureStore({
+    reducer: {
+        cart: cartReducer,
+    }
+});
+
+export default appStore; //after exporting particular slice,we want to provide it to our store.
+
+After creating the slice, we would want to subscribe to the store, and we know, to do that, we make 
+the use of selector. The selector is hook provided by, react-redux
+const cartItems= useSelector((store)=> store.cart.items); // here we are provided with a store parameter
+Now, we want to dispatch an action when add button is clicked. To do that,
+import {useDispatch} from "react-redux";
+import {addItem} from "cartSlice"; // here we import the action we want to dispatch.
+const dispatch= useDispatch(); // hook provided by react-redux
+
+const handleAddItem=()=>{
+    dispatch(addItem("")) //inside the parenthesis beside addItem is the payload that is passed.
+}
+
+This being said, we now know how to write/update/modify slices of the store and also subscribing 
+to the store. Let's take an example to differentiate between working efficiencies of the below code.
+
+const cartItems=useSelector((store)=>store.cart.items);
+and,
+const store=useSelector((store)=>store);
+const cartItems=store.cart.items;
+
+Now, both of the code above will do the job for you, but the first code is more efficient as it is 
+only subscribed to a specific part of the store and in the second case, we subscribe to the whole store,
+so whenever something changes in the whole store, we will be reading that also, without it being necessary
+to current component. For ex of code two:- We subscribe to the whole store, let's say there are two slices
+user and cart, now if a user logs in, we are reading that change(i.e the store is getting updated) in 
+our code, even when the cart slice has nothing to do with the user login. So, the firt method is more 
+efficient.
+
+
+In earlier Redux(vanilla), inside action, we were NOT allowed to mutate state,it was done like this,
+
+reducers:{
+    addItem:(state,action)=>{
+        const newState=[...state];
+        newState.items.push(action.payload);
+        return newState;
+    }
+}
+but with Redux toolkit, we either HAVE to mutate state or return a new State(code is done earlier)and returning is not mandatory;
+Redux toolkit uses Immer behind the scenes to provide us with a mutable state.
+
+
+for example,  in clearCart reducer, we could have done
+
+return {items:[]} instead of state.items.length=0;
+
+
+In all, when building a large scale application, we can go with redux, otherwise, for small and medium
+scale applications, we can go with context.
+
+
+
+
+

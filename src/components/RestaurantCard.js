@@ -2,10 +2,11 @@ import { CDN_URL } from "../utils/constants";
 
 const RestaurantCard = (props) => {
     const { resData } = props;
+
     const { name, cloudinaryImageId, cuisines, avgRating, sla, costForTwo } = resData?.info;
-    // console.log(resData);
+
     return (
-        <div className="p-2 m-3 w-[250px] rounded-lg bg-gray-50 transition-all duration-300 ease-in-out hover:transform hover:scale-110 hover:bg-gray-300 " >
+        <div data-testid="rescard" className="p-2 m-3 w-[250px] rounded-lg bg-gray-50 transition-all duration-300 ease-in-out hover:transform hover:scale-110 hover:bg-gray-300 " >
 
             <img src={CDN_URL + cloudinaryImageId} alt="res-logo" className="rounded-lg" />
             <h3 className="font-bold py-2 text-lg">{name}</h3>

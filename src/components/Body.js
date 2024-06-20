@@ -9,7 +9,7 @@ import useOnlineStatus from "../utils/useOnlineStatus";
 const Body = () => {
     const [resList, setResList] = useState([]);
     const [searchText, setSearchText] = useState("");
-    const [filteredres, setFilteredres] = useState([])
+    const [filteredRes, setFilteredRes] = useState([])
     // const { loggedInUser, setUserName } = useContext(UserContext);
     // console.log("list of res", resList);
     useEffect(() => {
@@ -20,7 +20,7 @@ const Body = () => {
         const receivedData = await fetch(RESTAURANT_API)
         const response = await receivedData.json();
         setResList(response?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants); // the ? is part of Optional chaining
-        setFilteredres(response?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+        setFilteredRes(response?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     }
 
 
@@ -42,7 +42,7 @@ const Body = () => {
 
             <div className="flex">
                 <div className="p-4 m-3">
-                    <input type="text" placeholder="Type here.." className="border border-solid border-black" value={searchText} onChange={(e) => {
+                    <input data-testid="searchInput" type="text" placeholder="Type here.." className="border border-solid border-black" value={searchText} onChange={(e) => {
                         setSearchText(e.target.value);
                     }} />
                     <button className="px-4 py-1 m-4 bg-green-300 rounded-lg" onClick={() => {
@@ -50,7 +50,7 @@ const Body = () => {
                         const filterData = resList?.filter((res) => {
                             return res.info.name.toLowerCase().includes(searchText.toLocaleLowerCase());
                         })
-                        setFilteredres(filterData);
+                        setFilteredRes(filterData);
 
 
                     }}>Search</button>
@@ -59,11 +59,11 @@ const Body = () => {
                     <button className="px-4 py-1 m-4 bg-gray-200 rounded-lg"
                         onClick={() => {
                             const filteredList = resList.filter((res) => {
-                                console.log(res.info.avgRating + " hi ");
-                                return res?.info?.avgRating > 4;
+                                // console.log(res.info.avgRating + " hi ");
+                                return res?.info?.avgRating > 4.2;
                             })
 
-                            setFilteredres(filteredList);
+                            setFilteredRes(filteredList);
                         }}
                     >Top Rated Restaurants</button></div>
                 {/* <div className="m-4 p-4 flex items-center">
@@ -75,7 +75,7 @@ const Body = () => {
             </div>
 
             <div className="flex flex-wrap">
-                {filteredres?.map((restaurant, index) => (
+                {filteredRes?.map((restaurant, index) => (
                     <Link key={restaurant?.info?.id} className="rescard-links" to={"/restaurants/" + restaurant?.info?.id}><RestaurantCard resData={restaurant} /></Link>
 
                 ))}

@@ -1,0 +1,121 @@
+Today, we will discuss about the ways a developer can test the react application.
+
+First one is, 
+Manual Testing:- It is the Testing of a feature manually, for ex- we implemented a search
+bar, the Manual Testing would be checking the feature by typing to see if the search works. This type of
+Testing is not efficient as this can take up a lot of time, going and Testing every feature will take 
+up a lot of time. Also, when the code is changed, we do not want to do a check manually always.
+
+Second,
+Code driven Testing:- Done by developers by writing code to test different parts of the application.
+There are three types of code based testing a developer can do:
+
+1)Unit Testing:- You test your React Components in isolation.
+
+2)Integration Testing:- Testing the Integration of more than one Components 
+
+3)End to End(e2e) Testing.............
+
+
+Setting up the React Testing Library in our application:-
+
+React Testing Library is built on top of DOM Testing Library. It uses Jest behind the scenes.
+ # Setting up Testing in our App
+ - Install React Testing Library
+ - Then Installed Jest
+ - Installed Babel-jest dependencies
+ - Configure Babel (babel.config.js).
+ - Configure parcel config file to disable default babel transpilation
+ - Jest configuration(npx jest --init)
+ - Installing JsDom library(npm install --save-dev jest-environment-jsdom)
+ - Install @babel/preset-react ==> to make jsx work inside test cases
+ - Install , npm i -D @testing-library/jest-dom
+
+Now,we know that when we install parcel,babel comes along as a dependency with pre-defined configurations
+for parcel. Now, when we are trying to add extra configuration, parcel's configuration will conflict with
+the babel.config.js configurations, so we will have to change, parcel's behaviour to accomodate,to 
+use babel along with jest.
+
+jsdom:- When we run testcases, there is no server running,like these testcases will not be running on
+browsers, we will need a runtime environment, where these testcases will be executed,for that we need 
+jsdom
+
+Let's now start with writing dummy test cases..
+
+export const sum = (a, b) => {
+    return a + b;
+}   // let's say we have this code inside sum.js file.
+
+Now, the first question arises, where do we write these test cases?
+=> if we create __tests__ folder, anywhere in our folder structure, any js(javascript) or ts(typescript)
+file inside this folder will be considered as test files, or any file with the name,
+
+filename.test.js , filename.test.ts, filename.spec.js, filename.spec.ts will be considered
+as a test file.
+
+import { sum } from "../sum"
+test("Calculate sum of two nums", () => {
+    const result = sum(3, 4); //this part is known as Querying.
+
+    //Assertion
+    expect(result).toBe(7);
+
+})
+the above is a sample test file for the sum module, here, instead of test keyword, we can use "it",
+it("description",()=>{
+    // Callback function.
+})
+This is how we write unit test cases, same can be done for Components, but to use
+toBeInTheDocument(), we have to install @testing-library/jest-dom. We can write as many unit tests 
+for a Component as we want.
+
+***Integration Testing.
+For a hands on example, we will be testing the search feature(Search.test.js) in Body Component. 
+Now this comes under Integration Testing as more than one component is rendered with Body.
+Also, we are fetching data using await fetch, so we will also learn how to handle these Scenarios.
+
+Firstly, like HMR, we can have some command which can keep check on our tests and if anything changes,
+they are run again by themselves, the command is jest --watch, so in package.json in scripts, we do,
+"watch-test": "jest --watch". And then, we can run the command, npm run watch-test .
+The below component shows how fetch is accomodated in test cases, also, when state updates are there,
+render is wrapped inside act function obtained from react(earlier react-dom/test-utils).
+
+import { render, screen } from "@testing-library/react"
+import Body from "../Body"
+import MOCK_DATA from '../mocks/resListMock.json'
+import { BrowserRouter } from "react-router-dom"
+import { act } from "react"
+import '@testing-library/jest-dom'
+
+
+global.fetch = jest.fn(() => {  //global.fetch takes care of impersonating fetch as in the browsers
+//as jest is A Browser like representation, not fully browser, jest.fn implies a fn is being created.
+    return Promise.resolve({
+        json: () => {
+            return Promise.resolve(MOCK_DATA)
+        }
+    })
+})
+
+it("Should render Body component with search btn", async () => {
+    await act(async () => render(
+        <BrowserRouter>
+            <Body />
+        </BrowserRouter>
+
+    ));
+
+    const searchBtn = screen.getByRole('button', { name: "Search" });
+    expect(searchBtn).toBeInTheDocument();
+    })
+
+
+
+
+
+
+
+
+
+
+
